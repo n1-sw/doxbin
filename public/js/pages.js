@@ -329,10 +329,9 @@ const Pages = {
                                 </p>
                             </div>
                             
-                            <div style="text-align: center; padding: 12px; background: var(--color-bg-tertiary); border: 1px solid var(--color-border); border-radius: 8px;">
-                                <p style="font-size: 12px; color: var(--color-muted); margin: 0;">
-                                    FORGOT_PASSWORD? 
-                                    <a href="#/forgot-password" style="color: var(--color-primary); text-decoration: none; font-weight: 700; text-shadow: 0 0 10px rgba(59, 130, 246, 0.3);">RESET_HERE</a>
+                            <div style="text-align: center; padding: 14px; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 8px;">
+                                <p style="font-size: 12px; color: #ef4444; margin: 0; font-weight: 600;">
+                                    ⚠️ WARNING: Do not forget your password. There is no password recovery option available.
                                 </p>
                             </div>
                         </div>
@@ -358,7 +357,24 @@ const Pages = {
             safeLog('SESSION_TOKEN_GENERATED', 'info');
             
             document.getElementById('user-status').textContent = user.username.toUpperCase();
-            window.app.user = user;
+            
+            // Properly store user with is_admin flag
+            window.app.user = {
+                id: user.id,
+                email: user.email,
+                username: user.username,
+                is_admin: user.is_admin === true || user.is_admin === 'true'
+            };
+            
+            // Show/hide admin button based on privilege
+            if (window.app.user.is_admin) {
+                document.getElementById('create-post-btn').style.display = 'flex';
+                safeLog('ADMIN_PRIVILEGES_GRANTED', 'success');
+            } else {
+                document.getElementById('create-post-btn').style.display = 'none';
+                safeLog('USER_ACCESS_LEVEL: STANDARD', 'info');
+            }
+            
             router.navigate('/');
         } catch (error) {
             safeLog('AUTH_ERROR: INVALID_CREDENTIALS', 'error');
@@ -405,7 +421,13 @@ const Pages = {
                             </button>
                         </form>
                         
-                        <div style="margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--color-border); text-align: center;">
+                        <div style="margin-top: 20px; padding: 14px; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 8px; margin-bottom: 16px;">
+                            <p style="font-size: 12px; color: #ef4444; margin: 0; font-weight: 600;">
+                                ⚠️ WARNING: Remember your password securely. There is no password recovery option available.
+                            </p>
+                        </div>
+                        
+                        <div style="padding-top: 16px; border-top: 1px solid var(--color-border); text-align: center;">
                             <p style="font-size: 13px; color: var(--color-muted);">
                                 ALREADY_REGISTERED? 
                                 <a href="#/login" style="color: var(--color-primary); text-decoration: none; font-weight: 700; transition: all 0.2s; text-shadow: 0 0 10px rgba(59, 130, 246, 0.3);">LOGIN_HERE</a>
@@ -496,42 +518,6 @@ const Pages = {
                         </div>
                     </div>
                     
-                    <div style="margin-bottom: 40px; background: var(--color-bg-secondary); backdrop-filter: blur(10px); border: 1px solid var(--color-border); border-radius: 16px; padding: 40px; box-shadow: 0 0 40px rgba(59, 130, 246, 0.15);">
-                        <div style="display: flex; align-items: center; gap: 16px;">
-                            <div style="width: 70px; height: 70px; background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2)); border: 2px solid var(--color-primary); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 36px; box-shadow: 0 0 30px rgba(59, 130, 246, 0.2);">🔐</div>
-                            <div>
-                                <h1 style="font-size: 36px; font-weight: 900; color: var(--color-primary); margin: 0; text-shadow: 0 0 20px rgba(59, 130, 246, 0.4);">
-                                    CHANGE_PASSWORD
-                                </h1>
-                                <p style="font-size: 13px; color: var(--color-muted); margin: 8px 0 0; letter-spacing: 0.5px;">
-                                    UPDATE_ADMIN_CREDENTIALS
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div style="background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: 16px; padding: 40px; box-shadow: 0 0 40px rgba(59, 130, 246, 0.15); margin-bottom: 40px;">
-                        <form onsubmit="Pages.handleChangePassword(event)">
-                        <div class="form-group">
-                            <label class="form-label" style="color: var(--color-primary); font-weight: 700; font-size: 12px; letter-spacing: 0.5px;">CURRENT PASSWORD</label>
-                            <input type="password" id="current-password" class="form-input" placeholder="Enter your current password..." required style="background: var(--color-bg-tertiary); border: 1px solid var(--color-border); color: var(--color-fg); padding: 12px 16px;">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label" style="color: var(--color-primary); font-weight: 700; font-size: 12px; letter-spacing: 0.5px;">NEW PASSWORD</label>
-                            <input type="password" id="new-password" class="form-input" placeholder="Enter new password (min 6 characters)..." required minlength="6" style="background: var(--color-bg-tertiary); border: 1px solid var(--color-border); color: var(--color-fg); padding: 12px 16px;">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label" style="color: var(--color-primary); font-weight: 700; font-size: 12px; letter-spacing: 0.5px;">CONFIRM NEW PASSWORD</label>
-                            <input type="password" id="confirm-password" class="form-input" placeholder="Confirm your new password..." required minlength="6" style="background: var(--color-bg-tertiary); border: 1px solid var(--color-border); color: var(--color-fg); padding: 12px 16px;">
-                        </div>
-                        
-                            <button type="submit" id="change-password-btn" class="btn btn-primary" style="width: 100%; padding: 14px 16px; font-size: 14px; font-weight: 700; background: var(--color-primary); border: 1px solid var(--color-primary); color: white; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 0 30px rgba(59, 130, 246, 0.4); border-radius: 8px; letter-spacing: 0.5px;">
-                                🔒 UPDATE_PASSWORD
-                            </button>
-                        </form>
-                    </div>
 
                     <div style="background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: 16px; padding: 40px; box-shadow: 0 0 40px rgba(59, 130, 246, 0.15);">
                         <form onsubmit="Pages.handleCreatePost(event)" enctype="multipart/form-data">
@@ -625,45 +611,6 @@ const Pages = {
             previewDiv.innerHTML = preview;
         };
         reader.readAsDataURL(file);
-    },
-    
-    async handleChangePassword(event) {
-        event.preventDefault();
-        
-        const currentPassword = document.getElementById('current-password').value;
-        const newPassword = document.getElementById('new-password').value;
-        const confirmPassword = document.getElementById('confirm-password').value;
-        const submitBtn = document.getElementById('change-password-btn');
-        
-        if (newPassword !== confirmPassword) {
-            alert('New passwords do not match');
-            return;
-        }
-        
-        if (newPassword.length < 6) {
-            alert('New password must be at least 6 characters');
-            return;
-        }
-        
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Updating...';
-        
-        try {
-            await API.changePassword(currentPassword, newPassword);
-            safeLog('PASSWORD_CHANGED_SUCCESSFULLY', 'success');
-            alert('Password changed successfully!');
-            document.getElementById('current-password').value = '';
-            document.getElementById('new-password').value = '';
-            document.getElementById('confirm-password').value = '';
-        } catch (error) {
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Update Password';
-            safeLog('PASSWORD_CHANGE_FAILED', 'error');
-            alert('Password change failed: ' + error.message);
-        } finally {
-            submitBtn.disabled = false;
-            submitBtn.textContent = '🔒 UPDATE_PASSWORD';
-        }
     },
     
     async handleCreatePost(event) {
@@ -957,40 +904,6 @@ const Pages = {
                         </div>
                     </div>
                     
-                    <div style="margin-bottom: 32px; background: var(--color-bg-secondary); backdrop-filter: blur(10px); border: 1px solid var(--color-border); border-radius: 16px; padding: 40px; box-shadow: 0 0 40px rgba(59, 130, 246, 0.15);">
-                        <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 24px;">
-                            <div style="width: 70px; height: 70px; background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2)); border: 2px solid var(--color-primary); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 36px; box-shadow: 0 0 30px rgba(59, 130, 246, 0.2);">🔐</div>
-                            <div>
-                                <h1 style="font-size: 28px; font-weight: 900; color: var(--color-primary); margin: 0; text-shadow: 0 0 20px rgba(59, 130, 246, 0.4);">
-                                    CHANGE_PASSWORD
-                                </h1>
-                                <p style="font-size: 13px; color: var(--color-muted); margin: 8px 0 0; letter-spacing: 0.5px;">
-                                    UPDATE_YOUR_CREDENTIALS
-                                </p>
-                            </div>
-                        </div>
-                        
-                        <form onsubmit="Pages.handleChangePassword(event)">
-                        <div class="form-group">
-                            <label class="form-label" style="color: var(--color-primary); font-weight: 700; font-size: 12px; letter-spacing: 0.5px;">CURRENT PASSWORD</label>
-                            <input type="password" id="current-password" class="form-input" placeholder="Enter your current password..." required style="background: var(--color-bg-tertiary); border: 1px solid var(--color-border); color: var(--color-fg); padding: 12px 16px;">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label" style="color: var(--color-primary); font-weight: 700; font-size: 12px; letter-spacing: 0.5px;">NEW PASSWORD</label>
-                            <input type="password" id="new-password" class="form-input" placeholder="Enter new password (min 6 characters)..." required minlength="6" style="background: var(--color-bg-tertiary); border: 1px solid var(--color-border); color: var(--color-fg); padding: 12px 16px;">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label" style="color: var(--color-primary); font-weight: 700; font-size: 12px; letter-spacing: 0.5px;">CONFIRM NEW PASSWORD</label>
-                            <input type="password" id="confirm-password" class="form-input" placeholder="Confirm your new password..." required minlength="6" style="background: var(--color-bg-tertiary); border: 1px solid var(--color-border); color: var(--color-fg); padding: 12px 16px;">
-                        </div>
-                        
-                            <button type="submit" id="change-password-btn" class="btn btn-primary" style="width: 100%; padding: 14px 16px; font-size: 14px; font-weight: 700; background: var(--color-primary); border: 1px solid var(--color-primary); color: white; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 0 30px rgba(59, 130, 246, 0.4); border-radius: 8px; letter-spacing: 0.5px;">
-                                🔒 UPDATE_PASSWORD
-                            </button>
-                        </form>
-                    </div>
 
                     ${user.is_admin ? `
                         <div style="margin-bottom: 32px;">
@@ -1053,62 +966,19 @@ const Pages = {
     
     forgotPassword() {
         const html = `
-            <div style="display: flex; align-items: center; justify-content: center; min-height: 100vh; background: var(--color-bg); position: relative; overflow: hidden;">
-                <div style="position: absolute; width: 500px; height: 500px; background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%); border-radius: 50%; top: -150px; right: -150px; filter: blur(40px);"></div>
-                <div style="position: absolute; width: 400px; height: 400px; background: radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, transparent 70%); border-radius: 50%; bottom: -120px; left: -120px; filter: blur(40px);"></div>
-                
-                <div class="container" style="max-width: 450px; width: 100%; position: relative; z-index: 10; padding: 16px;">
-                    <div style="background: var(--color-bg-secondary); backdrop-filter: blur(10px); border: 1px solid var(--color-border); border-radius: 16px; padding: 48px; box-shadow: 0 0 40px rgba(59, 130, 246, 0.15);">
-                        <div style="text-align: center; margin-bottom: 40px;">
-                            <div style="width: 70px; height: 70px; background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2)); border: 2px solid var(--color-primary); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; font-size: 36px; box-shadow: 0 0 30px rgba(59, 130, 246, 0.2);">🔑</div>
-                            <h1 style="font-size: 32px; font-weight: 900; color: var(--color-primary); margin-bottom: 8px; text-shadow: 0 0 20px rgba(59, 130, 246, 0.4);">
-                                RESET_PASSWORD
-                            </h1>
-                            <p style="font-size: 12px; color: var(--color-muted); letter-spacing: 1px;">
-                                RECOVER_YOUR_ACCOUNT
-                            </p>
-                        </div>
-                        
-                        <div id="forgot-step-1" style="display: block;">
-                            <form onsubmit="Pages.handleForgotPassword(event)">
-                                <div class="form-group">
-                                    <label class="form-label" style="color: var(--color-primary); font-weight: 700; font-size: 12px; letter-spacing: 0.5px;">EMAIL ADDRESS</label>
-                                    <input type="email" id="forgot-email" class="form-input" placeholder="user@domain.com" required style="background: var(--color-bg-tertiary); border: 1px solid var(--color-border); color: var(--color-fg); padding: 12px 16px;">
-                                </div>
-                                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 14px 16px; font-size: 14px; font-weight: 700; background: var(--color-primary); border: 1px solid var(--color-primary); color: white; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 0 30px rgba(59, 130, 246, 0.4); border-radius: 8px; letter-spacing: 0.5px;">
-                                    ▶ SEND_RESET_CODE
-                                </button>
-                            </form>
-                        </div>
-                        
-                        <div id="forgot-step-2" style="display: none;">
-                            <form onsubmit="Pages.handleResetPassword(event)">
-                                <div class="form-group">
-                                    <label class="form-label" style="color: var(--color-primary); font-weight: 700; font-size: 12px; letter-spacing: 0.5px;">RESET CODE</label>
-                                    <input type="text" id="reset-code" class="form-input" placeholder="6-digit code" required maxlength="6" style="background: var(--color-bg-tertiary); border: 1px solid var(--color-border); color: var(--color-fg); padding: 12px 16px;">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label" style="color: var(--color-primary); font-weight: 700; font-size: 12px; letter-spacing: 0.5px;">NEW PASSWORD</label>
-                                    <input type="password" id="reset-password" class="form-input" placeholder="••••••••" required minlength="6" style="background: var(--color-bg-tertiary); border: 1px solid var(--color-border); color: var(--color-fg); padding: 12px 16px;">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label" style="color: var(--color-primary); font-weight: 700; font-size: 12px; letter-spacing: 0.5px;">CONFIRM PASSWORD</label>
-                                    <input type="password" id="reset-password-confirm" class="form-input" placeholder="••••••••" required minlength="6" style="background: var(--color-bg-tertiary); border: 1px solid var(--color-border); color: var(--color-fg); padding: 12px 16px;">
-                                </div>
-                                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 14px 16px; font-size: 14px; font-weight: 700; background: var(--color-primary); border: 1px solid var(--color-primary); color: white; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 0 30px rgba(59, 130, 246, 0.4); border-radius: 8px; letter-spacing: 0.5px; margin-bottom: 12px;">
-                                    ▶ RESET_PASSWORD
-                                </button>
-                            </form>
-                            <button onclick="Pages.forgotPassword()" class="btn btn-secondary" style="width: 100%; padding: 10px 16px; font-size: 12px; background: var(--color-bg-tertiary); border: 1px solid var(--color-border); color: var(--color-primary); cursor: pointer; border-radius: 8px; font-weight: 600;">
-                                ← BACK
-                            </button>
-                        </div>
-                        
-                        <div style="text-align: center; padding: 16px; background: var(--color-bg-tertiary); border: 1px solid var(--color-border); border-radius: 8px; margin-top: 20px;">
-                            <p style="font-size: 12px; color: var(--color-muted); margin: 0;">
-                                REMEMBER_PASSWORD? 
-                                <a href="#/login" style="color: var(--color-primary); text-decoration: none; font-weight: 700; text-shadow: 0 0 10px rgba(59, 130, 246, 0.3);">LOGIN_HERE</a>
-                            </p>
+            <div style="display: flex; align-items: center; justify-content: center; min-height: 100vh; background: var(--color-bg);">
+                <div class="container" style="max-width: 500px; width: 100%; padding: 32px 16px;">
+                    <div style="background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: 16px; padding: 48px; box-shadow: 0 0 40px rgba(59, 130, 246, 0.15); text-align: center;">
+                        <div style="font-size: 48px; margin-bottom: 24px;">🔐</div>
+                        <h1 style="font-size: 32px; font-weight: 900; color: var(--color-primary); margin-bottom: 16px;">
+                            PASSWORD RESET UNAVAILABLE
+                        </h1>
+                        <p style="font-size: 14px; color: var(--color-muted); margin-bottom: 32px; line-height: 1.6;">
+                            Password reset functionality has been disabled. Please make sure to remember your password securely. If you have forgotten your password, please contact the administrator.
+                        </p>
+                        <div style="display: flex; gap: 12px; justify-content: center;">
+                            <a href="#/login" class="btn btn-primary" style="background: var(--color-primary); border: 1px solid var(--color-primary); color: white; padding: 12px 28px; border-radius: 8px; text-decoration: none; font-weight: 700;">Back to Login</a>
+                            <a href="#/" class="btn btn-secondary" style="background: var(--color-bg-tertiary); border: 1px solid var(--color-border); color: var(--color-primary); padding: 12px 28px; border-radius: 8px; text-decoration: none; font-weight: 700;">Home</a>
                         </div>
                     </div>
                 </div>
@@ -1116,47 +986,9 @@ const Pages = {
         `;
         
         document.getElementById('app').innerHTML = html;
-        safeLog('PAGE_LOADED: FORGOT_PASSWORD_PORTAL', 'info');
+        safeLog('PAGE_LOADED: PASSWORD_RESET_DISABLED', 'warning');
     },
     
-    async handleForgotPassword(event) {
-        event.preventDefault();
-        const email = document.getElementById('forgot-email').value;
-        
-        try {
-            await API.requestPasswordReset(email);
-            safeLog('PASSWORD_RESET_CODE_SENT', 'success');
-            alert('Check your email for the reset code (displayed in the console for demo)');
-            document.getElementById('forgot-step-1').style.display = 'none';
-            document.getElementById('forgot-step-2').style.display = 'block';
-        } catch (error) {
-            safeLog('PASSWORD_RESET_FAILED', 'error');
-            alert('Error: ' + error.message);
-        }
-    },
-    
-    async handleResetPassword(event) {
-        event.preventDefault();
-        const email = document.getElementById('forgot-email').value;
-        const code = document.getElementById('reset-code').value;
-        const newPassword = document.getElementById('reset-password').value;
-        const confirmPassword = document.getElementById('reset-password-confirm').value;
-        
-        if (newPassword !== confirmPassword) {
-            alert('Passwords do not match');
-            return;
-        }
-        
-        try {
-            await API.resetPassword(email, code, newPassword);
-            safeLog('PASSWORD_RESET_SUCCESSFUL', 'success');
-            alert('Password reset successfully! Please log in with your new password.');
-            router.navigate('/login');
-        } catch (error) {
-            safeLog('PASSWORD_RESET_FAILED', 'error');
-            alert('Error: ' + error.message);
-        }
-    },
 
     startViewCounter(postId) {
         setInterval(async () => {

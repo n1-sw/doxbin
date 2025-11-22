@@ -60,26 +60,26 @@ const Chat = {
     },
     
     setupChatUI() {
-        // Setup chat toggle button with immediate binding
+        // Setup chat toggle button with addEventListener
         const chatBtn = document.getElementById('chat-toggle-btn');
         if (chatBtn) {
             const self = this;
-            chatBtn.onclick = function(e) {
+            chatBtn.addEventListener('click', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
                 self.toggleChat();
-            };
+            }, false);
         }
         
         // Setup chat close button
         const closeBtn = document.getElementById('chat-close-btn');
         if (closeBtn) {
             const self = this;
-            closeBtn.onclick = function(e) {
+            closeBtn.addEventListener('click', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
                 self.toggleChat();
-            };
+            }, false);
         }
         
         // Setup admin clear button (only for admins)
@@ -87,23 +87,23 @@ const Chat = {
         if (clearBtn && this.isAdmin) {
             clearBtn.style.display = 'flex';
             const self = this;
-            clearBtn.onclick = function(e) {
+            clearBtn.addEventListener('click', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
                 if (confirm('Are you sure you want to clear all chat messages? This cannot be undone.')) {
                     self.clearChat();
                 }
-            };
+            }, false);
         }
         
         // Setup send message form
         const chatForm = document.getElementById('chat-form');
         if (chatForm) {
             const self = this;
-            chatForm.onsubmit = function(e) {
+            chatForm.addEventListener('submit', (e) => {
                 e.preventDefault();
                 self.handleSendMessage(e);
-            };
+            }, false);
         }
     },
     

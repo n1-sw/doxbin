@@ -8,7 +8,7 @@ const API = {
                     'Content-Type': 'application/json',
                     ...options.headers
                 },
-                credentials: 'same-origin'
+                credentials: 'include'
             });
             
             const data = await response.json();
@@ -62,7 +62,7 @@ const API = {
         const response = await fetch('/api/posts', {
             method: 'POST',
             body: formData,
-            credentials: 'same-origin'
+            credentials: 'include'
         });
         
         const data = await response.json();
@@ -103,27 +103,4 @@ const API = {
         return this.request('/api/stats');
     },
     
-    // Change password
-    async changePassword(currentPassword, newPassword) {
-        return this.request('/api/change-password', {
-            method: 'POST',
-            body: JSON.stringify({ currentPassword, newPassword })
-        });
-    },
-    
-    // Request password reset
-    async requestPasswordReset(email) {
-        return this.request('/api/request-password-reset', {
-            method: 'POST',
-            body: JSON.stringify({ email })
-        });
-    },
-    
-    // Reset password with code
-    async resetPassword(email, code, newPassword) {
-        return this.request('/api/reset-password', {
-            method: 'POST',
-            body: JSON.stringify({ email, code, newPassword })
-        });
-    }
 };

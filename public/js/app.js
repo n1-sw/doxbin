@@ -196,7 +196,6 @@ class App {
         router.register('/about', Pages.about);
         router.register('/login', Pages.login);
         router.register('/register', Pages.register);
-        router.register('/forgot-password', Pages.forgotPassword);
         router.register('/admin', Pages.admin);
         router.register('/profile', Pages.profile);
         router.register('/post/:id', Pages.postDetail);
