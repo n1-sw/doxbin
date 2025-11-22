@@ -56,11 +56,18 @@ class Terminal {
         const logEntry = { timestamp, message, type };
         
         this.logs.push(logEntry);
-        if (this.logs.length > 50) {
+        if (this.logs.length > 30) { // Reduced from 50 to 30 for better performance
             this.logs.shift();
         }
         
-        this.render();
+        // Batch renders with requestAnimationFrame for better performance
+        if (!this.renderScheduled) {
+            this.renderScheduled = true;
+            requestAnimationFrame(() => {
+                this.render();
+                this.renderScheduled = false;
+            });
+        }
     }
     
     render() {

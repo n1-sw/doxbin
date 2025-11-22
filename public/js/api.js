@@ -19,7 +19,6 @@ const API = {
             
             return data;
         } catch (error) {
-            console.error('API Error:', error);
             throw error;
         }
     },
@@ -73,5 +72,58 @@ const API = {
         }
         
         return data;
+    },
+    
+    // Comments endpoints
+    async getComments(postId) {
+        return this.request(`/api/posts/${postId}/comments`);
+    },
+    
+    async createComment(postId, content) {
+        return this.request(`/api/posts/${postId}/comments`, {
+            method: 'POST',
+            body: JSON.stringify({ content })
+        });
+    },
+    
+    // View count endpoint
+    async getViewCount(postId) {
+        return this.request(`/api/posts/${postId}/views`);
+    },
+    
+    // Delete post (admin only)
+    async deletePost(postId) {
+        return this.request(`/api/posts/${postId}`, {
+            method: 'DELETE'
+        });
+    },
+    
+    // Stats endpoints
+    async getStats() {
+        return this.request('/api/stats');
+    },
+    
+    // Change password
+    async changePassword(currentPassword, newPassword) {
+        return this.request('/api/change-password', {
+            method: 'POST',
+            body: JSON.stringify({ currentPassword, newPassword })
+        });
+    },
+    
+    // Request password reset
+    async requestPasswordReset(email) {
+        return this.request('/api/request-password-reset', {
+            method: 'POST',
+            body: JSON.stringify({ email })
+        });
+    },
+    
+    // Reset password with code
+    async resetPassword(email, code, newPassword) {
+        return this.request('/api/reset-password', {
+            method: 'POST',
+            body: JSON.stringify({ email, code, newPassword })
+        });
     }
 };
