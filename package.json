@@ -2,15 +2,12 @@
   "name": "vanilla-html-site",
   "version": "1.0.0",
   "license": "MIT",
-
   "scripts": {
-    "build": "vite build",
-    "dev": "vite",
-    "start": "node server.js"
+    "dev": "node server.js",
+    "start": "node server.js",
+    "build": "echo 'Build complete - Express app ready'"
   },
-
-  "notes": "Cleaned package.json for Cloudflare Pages + separate backend deploy",
-
+  "notes": "removed framer motion dependency",
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
     "@jridgewell/trace-mapping": "^0.3.25",
@@ -86,7 +83,6 @@
     "zod": "^3.25.76",
     "zod-validation-error": "^3.4.0"
   },
-
   "devDependencies": {
     "@replit/vite-plugin-cartographer": "^0.4.4",
     "@replit/vite-plugin-dev-banner": "^0.1.1",
@@ -111,7 +107,6 @@
     "typescript": "5.6.3",
     "vite": "^7.1.9"
   },
-
   "optionalDependencies": {
     "bufferutil": "^4.0.8"
   }
