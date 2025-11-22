@@ -234,7 +234,7 @@ const Pages = {
                             <p><strong style="color: var(--color-fg);">Lead Developer:</strong> CEO. DAMON</p>
                             <p><strong style="color: var(--color-fg);">Title:</strong> Full Stack Developer & Architect</p>
                             <p><strong style="color: var(--color-fg);">Expertise:</strong> Backend, Frontend, Database Design, Security</p>
-                            <p><strong style="color: var(--color-fg);">Website:</strong> <a href="https://abidhasansajid.me" target="_blank" style="color: var(--color-primary); text-decoration: none;">https://damon.dev</a></p>
+                            <p><strong style="color: var(--color-fg);">Website:</strong> <a href="https://abidhasansajid.me" target="_blank" style="color: var(--color-primary); text-decoration: none;">Visit website</a></p>
                             <p><strong style="color: var(--color-fg);">Experience:</strong> Full-stack web development with modern frameworks</p>
                         </div>
                         <div style="font-size: 13px; color: var(--color-muted); line-height: 1.8;">
