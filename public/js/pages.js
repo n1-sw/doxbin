@@ -217,8 +217,8 @@ const Pages = {
                     <div class="card">
                         <h2 style="color: var(--color-primary); margin-bottom: 16px; font-size: 18px; border-bottom: 1px solid var(--color-border); padding-bottom: 12px;">👤 ADMIN_INFO</h2>
                         <div style="font-size: 13px; color: var(--color-muted); line-height: 1.8;">
-                            <p><strong style="color: var(--color-fg);">Administrator:</strong> Admin</p>
-                            <p><strong style="color: var(--color-fg);">Email:</strong> admin@scxbin.local</p>
+                            <p><strong style="color: var(--color-fg);">Administrator:</strong> SCX</p>
+                            <p><strong style="color: var(--color-fg);">Email:</strong> admin@scxdoxbin.local</p>
                             <p><strong style="color: var(--color-fg);">Role:</strong> System Administrator & Content Manager</p>
                             <p><strong style="color: var(--color-fg);">Responsibilities:</strong> Post management, user oversight, system security</p>
                             <p><strong style="color: var(--color-fg);">Availability:</strong> 24/7 System Monitoring</p>
@@ -234,7 +234,7 @@ const Pages = {
                             <p><strong style="color: var(--color-fg);">Lead Developer:</strong> CEO. DAMON</p>
                             <p><strong style="color: var(--color-fg);">Title:</strong> Full Stack Developer & Architect</p>
                             <p><strong style="color: var(--color-fg);">Expertise:</strong> Backend, Frontend, Database Design, Security</p>
-                            <p><strong style="color: var(--color-fg);">Website:</strong> <a href="https://damon.dev" target="_blank" style="color: var(--color-primary); text-decoration: none;">https://damon.dev</a></p>
+                            <p><strong style="color: var(--color-fg);">Website:</strong> <a href="https://abidhasansajid.me" target="_blank" style="color: var(--color-primary); text-decoration: none;">https://damon.dev</a></p>
                             <p><strong style="color: var(--color-fg);">Experience:</strong> Full-stack web development with modern frameworks</p>
                         </div>
                         <div style="font-size: 13px; color: var(--color-muted); line-height: 1.8;">
