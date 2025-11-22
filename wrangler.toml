@@ -3,7 +3,7 @@ main = "server.js"
 compatibility_date = "2024-11-15"
 
 # Your Cloudflare Account ID (find at https://dash.cloudflare.com)
-account_id = "your-cloudflare-account-id"
+account_id = "9a5551cf479e1809d667ab950c928151"
 
 # Enable Cloudflare Workers development
 workers_dev = true
