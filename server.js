@@ -464,10 +464,6 @@ const startServer = async () => {
         process.exit(1);
     }
     
-    if (process.env.MONGODB_URL) {
-        connectMongoDB();
-    }
-    
     server.listen(PORT, '0.0.0.0', () => {
         console.log(`Database initialized successfully`);
         console.log(`Server running at http://0.0.0.0:${PORT}/`);
