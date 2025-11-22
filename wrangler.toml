@@ -1,154 +1,19 @@
 name = "scxbin-backend"
 main = "server.js"
 compatibility_date = "2024-11-15"
+compatibility_flags = ["nodejs_compat"]
 
-# Your Cloudflare Account ID (find at https://dash.cloudflare.com)
-account_id = "9a5551cf479e1809d667ab950c928151"
-
-# Enable Cloudflare Workers development
-workers_dev = true
-
-# ============================================
-# PRODUCTION ENVIRONMENT
-# ============================================
 [env.production]
 name = "scxbin-production"
-route = "api.yourdomain.com/*"
-zone_name = "yourdomain.com"
 
 [env.production.vars]
 ENVIRONMENT = "production"
-API_URL = "https://api.yourdomain.com"
 
-# REQUIRED SECRETS (add in Cloudflare Dashboard):
-# - DATABASE_URL
-# - SESSION_SECRET
-# OPTIONAL SECRETS:
-# - SENDGRID_API_KEY / MAILGUN_API_KEY / AWS_SES_ACCESS_KEY
-# - R2_ACCESS_KEY_ID / R2_SECRET_ACCESS_KEY / AWS_S3_ACCESS_KEY
-# - GOOGLE_ANALYTICS_ID
-# - POSTHOG_API_KEY
-
-# ============================================
-# DEVELOPMENT ENVIRONMENT
-# ============================================
 [env.development]
 name = "scxbin-development"
-route = "api-dev.yourdomain.com/*"
-zone_name = "yourdomain.com"
 
 [env.development.vars]
 ENVIRONMENT = "development"
-API_URL = "http://localhost:5000"
 
-# ============================================
-# DATABASE CONFIGURATION (OPTIONAL)
-# Use Cloudflare D1 (serverless SQL) or external PostgreSQL
-# ============================================
-
-# Option 1: External PostgreSQL (Recommended for Node.js)
-# Use DATABASE_URL environment variable instead
-# Example: postgresql://user:pass@db.example.com/scxbin
-
-# Option 2: Cloudflare D1 (if switching to SQLite)
-# [[d1_databases]]
-# binding = "DB"
-# database_name = "scxbin-db"
-# database_id = "YOUR_D1_DATABASE_ID"
-
-# ============================================
-# KV STORAGE (OPTIONAL)
-# For caching, rate limiting, or session storage
-# ============================================
-[[kv_namespaces]]
-binding = "SESSIONS"
-id = "YOUR_KV_NAMESPACE_ID"
-preview_id = "YOUR_KV_PREVIEW_ID"
-
-# ============================================
-# R2 STORAGE (OPTIONAL)
-# For uploading images and videos to Cloudflare R2
-# ============================================
-[[r2_buckets]]
-binding = "BUCKET"
-bucket_name = "scxbin-uploads"
-jurisdiction = "eu"  # or "us"
-preview_bucket_name = "scxbin-uploads-preview"
-
-# ============================================
-# BUILD CONFIGURATION
-# ============================================
 [build]
-command = "npm install"
-cwd = "./"
-watch_paths = ["server.js", "public/**/*", "config/**/*", "db/**/*"]
-
-[build.upload]
-format = "modules"
-
-# ============================================
-# ROUTES CONFIGURATION
-# ============================================
-
-# API Routes
-[[routes]]
-pattern = "api.yourdomain.com/api/*"
-zone_name = "yourdomain.com"
-custom_domain = true
-
-# Static Assets and SPA
-[[routes]]
-pattern = "yourdomain.com/*"
-zone_name = "yourdomain.com"
-custom_domain = true
-
-# Development API Routes
-[[routes]]
-pattern = "api-dev.yourdomain.com/*"
-zone_name = "yourdomain.com"
-custom_domain = true
-
-# ============================================
-# OBSERVABILITY
-# ============================================
-
-# Enable tail (real-time logs)
-[tail]
-
-# ============================================
-# LIMITS & SETTINGS
-# ============================================
-
-# Maximum request body size
-[env.production]
-body_size_limit_mb = 50  # For file uploads
-
-[env.development]
-body_size_limit_mb = 50
-
-# ============================================
-# DEPLOYMENT INSTRUCTIONS
-# ============================================
-#
-# 1. Update account_id to your Cloudflare Account ID
-#    - Find at: https://dash.cloudflare.com
-#
-# 2. Update domain names:
-#    - Replace "yourdomain.com" with your actual domain
-#    - Replace "api.yourdomain.com" with your API subdomain
-#
-# 3. Add REQUIRED secrets in Cloudflare Dashboard:
-#    - Workers & Pages → Your Worker → Settings → Environment Variables
-#    - Add DATABASE_URL (PostgreSQL connection string)
-#    - Add SESSION_SECRET (random 32+ char string)
-#
-# 4. (Optional) Add additional secrets for email, storage, analytics
-#    - See CLOUDFLARE_DEPLOYMENT.md for complete list
-#
-# 5. Deploy to production:
-#    wrangler publish --env production
-#
-# 6. Deploy to development:
-#    wrangler publish --env development
-#
-# ============================================
+command = "npm run build"
